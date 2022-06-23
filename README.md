@@ -34,6 +34,12 @@
 yarn create vite
 ```
 
+- [Styled components](https://styled-components.com/)
+
+```sh
+yarn add styled-components
+```
+
 - [Hero Icons](https://heroicons.com/)
 
 ## Features
