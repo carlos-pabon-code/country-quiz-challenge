@@ -29,4 +29,8 @@ export default createGlobalStyle`
     background: url(${Background}) center center;
     background-size: cover;
    }
+
+   body,html{
+    min-height: 100vh;    
+   }
 `;
