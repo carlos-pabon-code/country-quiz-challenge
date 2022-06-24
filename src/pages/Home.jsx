@@ -6,13 +6,18 @@ const HomeContainer = styled.section`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  margin-top: 3rem;
+  margin: 6rem 0;
+  @media (min-width: 768px) {
+    margin: 2rem 0;
+  }
 `;
 
 export const Home = () => {
   return (
     <HomeContainer>
-      <Card />
+      <main role="main">
+        <Card />
+      </main>
     </HomeContainer>
   );
 };

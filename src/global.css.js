@@ -14,7 +14,7 @@ export default createGlobalStyle`
     --white: #FFFFFF;
     --question-color: #2F527B;
     --answer-hover: #F9A826;
-    --answer-border: #6066D0B2;
+    --answer-border: rgba(96, 102, 208, 0.8);
     --answer-wrong:  #EA8282;
     --answer-correct: #60BF88;
     --results-title: #1D355D;
