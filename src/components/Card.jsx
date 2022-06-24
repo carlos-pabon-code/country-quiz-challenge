@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import TopCardImage from "../assets/images/card-image.svg";
-import { Question } from "./Question";
+import { CountryQuestion } from "./CountryQuestion";
 
 const CardContainer = styled.section`
   background-color: var(--white);
@@ -46,7 +46,7 @@ export const Card = () => {
           <CardImage src={TopCardImage} alt="card-image" />
         </figure>
       </CardHeader>
-      <Question />
+      <CountryQuestion />
     </CardContainer>
   );
 };

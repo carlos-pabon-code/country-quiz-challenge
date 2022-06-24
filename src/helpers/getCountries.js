@@ -1,3 +1,5 @@
+import { getRandomNumber } from "./getRandomNumber";
+
 /**
  *
  * @param {Array} data an array of objects containing the countries data
@@ -35,4 +37,14 @@ export const getCountries = async () => {
   } catch (error) {
     console.error(error);
   }
+};
+
+/**
+ *
+ * @param {array} countries array with 4 random countries
+ * @returns {object} An object with a random country data
+ */
+export const getRandomCountry = (countries) => {
+  const randomCountry = getRandomNumber(0, 3);
+  return countries[randomCountry];
 };
