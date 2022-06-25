@@ -29,7 +29,7 @@ const getFourCountries = (countriesData) => {
  */
 export const getCountries = async () => {
   try {
-    const request = await fetch("https://restcountries.com/v3.1/all");
+    const request = await fetch("https://restcountries.com/v3.1/lang/eng");
     const data = await request.json();
     const filteredData = filterCountries(data);
     const countriesData = getFourCountries(filteredData);

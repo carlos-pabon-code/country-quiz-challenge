@@ -1,10 +1,12 @@
 import styled from "styled-components";
+import ResultsImage from "../assets/images/results-image.svg";
 import { useContext, useEffect, useState } from "react";
 import { getCountries, getRandomCountry } from "../helpers/getCountries";
 import { getRandomNumber } from "../helpers/getRandomNumber";
 import { QuestionHeader } from "./QuestionHeader";
 import { QuestionBody } from "./QuestionBody";
 import { Loader } from "./Loader";
+import ResultsContext from "../context/ResultsContext";
 
 const QuestionContainer = styled.section`
   margin-top: 1rem;
@@ -58,7 +60,62 @@ const NextButton = styled.button`
   }
 `;
 
+const ResultsContainer = styled.section`
+  margin-top: 5rem;
+`;
+
+const ResultsImg = styled.img`
+  width: 238px;
+  height: 136px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ResultsTitle = styled.h2`
+  color: var(--results-title);
+  text-align: center;
+  font-family: var(--title);
+  font-size: 36px;
+  font-weight: 700;
+  margin: 2rem 0;
+`;
+
+const ResultsMessage = styled.p`
+  text-align: center;
+  font-family: var(--title);
+  font-size: 24px;
+  font-weight: 400;
+`;
+
+const Score = styled.span`
+  text-align: center;
+  font-family: var(--title);
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--score-color);
+`;
+const TryAgainButton = styled.button`
+  width: 120px;
+  height: 62px;
+  background-color: transparent;
+  color: var(--results-title);
+  border: 2px solid var(--results-title);
+  font-family: var(--title);
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  margin: 2rem auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 12px;
+`;
+
 const initialAnswerState = { id: "", state: null };
+const initialScoreState = { page: 1, score: 0, limit: 5 };
 export const CountryQuestion = () => {
   //useState to save the four random country obtained from the API
   const [countries, setCountries] = useState("");
@@ -70,8 +127,8 @@ export const CountryQuestion = () => {
   const [selectedAnswer, setSelectedAnswer] = useState(initialAnswerState);
   //useState to show a Loader while the data is fetched from the API
   const [isLoading, setIsLoading] = useState(true);
-  //useState to store the page and score obtained
-  const [results, setResults] = useState({ page: 1, score: 0 });
+  //useContext to store the current page, score obtained and page limit
+  const { results, setResults } = useContext(ResultsContext);
 
   /**
    * sets an object with a random country data
@@ -102,9 +159,12 @@ export const CountryQuestion = () => {
    * @param {string} selectedAnswer Clicked answer by the user
    */
   const handleSelectedAnswer = (id, selectedAnswer) => {
-    selectedAnswer === selectedCountry.name
-      ? setSelectedAnswer({ id, state: true })
-      : setSelectedAnswer({ id, state: false });
+    if (selectedAnswer === selectedCountry.name) {
+      setResults({ ...results, score: results.score + 1 });
+      setSelectedAnswer({ id, state: true });
+    } else {
+      setSelectedAnswer({ id, state: false });
+    }
   };
 
   /**
@@ -112,6 +172,14 @@ export const CountryQuestion = () => {
    */
   const showNextQuestion = () => {
     setIsLoading(true);
+    setResults({ ...results, page: results.page + 1 });
+    setSelectedAnswer(initialAnswerState);
+    getRandomCountries();
+  };
+
+  const startAgain = () => {
+    setIsLoading(true);
+    setResults(initialScoreState);
     setSelectedAnswer(initialAnswerState);
     getRandomCountries();
   };
@@ -123,7 +191,7 @@ export const CountryQuestion = () => {
   return (
     <QuestionContainer>
       {isLoading && <Loader />}
-      {!isLoading && (
+      {!isLoading && results.page <= results.limit && (
         <>
           <QuestionHeader
             questionType={questionType}
@@ -141,14 +209,30 @@ export const CountryQuestion = () => {
               />
             ))}
           <QuestionFooter>
-            <QuestionPage>{page}/4</QuestionPage>
+            <QuestionPage>
+              {results.page}/{results.limit}
+            </QuestionPage>
             {selectedAnswer.state !== null && (
               <NextButton type="button" onClick={showNextQuestion}>
                 Next
               </NextButton>
             )}
-          </QuestionFooter>{" "}
+          </QuestionFooter>
         </>
+      )}
+      {results.page > results.limit && !isLoading && (
+        <ResultsContainer>
+          <figure>
+            <ResultsImg src={ResultsImage} />
+          </figure>
+          <ResultsTitle>Results</ResultsTitle>
+          <ResultsMessage>
+            You got <Score>{results.score}</Score> correct answers
+          </ResultsMessage>
+          <TryAgainButton type="button" onClick={startAgain}>
+            Try again
+          </TryAgainButton>
+        </ResultsContainer>
       )}
     </QuestionContainer>
   );

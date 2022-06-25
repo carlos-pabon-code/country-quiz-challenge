@@ -6,7 +6,8 @@ const LoaderContainer = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  margin-top: -1rem;
+  min-height: 380px;
+  padding-top: 2rem;
 `;
 
 export const Loader = () => {

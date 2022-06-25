@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import styled from "styled-components";
 import TopCardImage from "../assets/images/card-image.svg";
+import ResultsContext from "../context/ResultsContext";
 import { CountryQuestion } from "./CountryQuestion";
 
 const CardContainer = styled.section`
@@ -10,9 +12,11 @@ const CardContainer = styled.section`
   margin: 0 auto;
   border-radius: 24px;
   position: relative;
+  transition: all 0.6s ease-in-out;
   @media (min-width: 768px) {
-    width: 464px;
-    height: 580px;
+    width: 480px;
+    height: auto;
+    min-height: 360px;
   }
 `;
 
@@ -38,13 +42,17 @@ const CardImage = styled.img`
 `;
 
 export const Card = () => {
+  //useContext to hide the image when the page limit is reached
+  const { results } = useContext(ResultsContext);
   return (
     <CardContainer>
       <CardHeader>
         <CardTitle>Country Quiz</CardTitle>
-        <figure>
-          <CardImage src={TopCardImage} alt="card-image" />
-        </figure>
+        {results.page <= results.limit && (
+          <figure>
+            <CardImage src={TopCardImage} alt="card-image" />
+          </figure>
+        )}
       </CardHeader>
       <CountryQuestion />
     </CardContainer>

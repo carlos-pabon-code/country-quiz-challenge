@@ -19,7 +19,7 @@ export default createGlobalStyle`
     --answer-correct: #60BF88;
     --results-title: #1D355D;
     --correct-answers: #6FCF97;
-    --try-border: #1D355D;
+    --score-color: #6FCF97;
     /* Fonts */
     --paragraph: 'Montserrat', sans-serif;
     --title: 'Poppins', sans-serif;
@@ -54,6 +54,7 @@ export default createGlobalStyle`
       -webkit-transform: translateZ(0);
       -ms-transform: translateZ(0);
       transform: translateZ(0);
+      overflow: hidden;
    }
    .loader:before {
       width: 50%;

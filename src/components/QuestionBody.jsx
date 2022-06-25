@@ -7,7 +7,7 @@ const QuestionLetters = styled.span`
   font-weight: 500;
   padding-left: 0.5rem;
   @media (min-width: 768px) {
-    padding: 0 3rem 0 1rem;
+    padding: 0 1rem 0 1rem;
     font-size: 24px;
   }
 `;
